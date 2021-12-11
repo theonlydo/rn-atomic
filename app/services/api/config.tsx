@@ -1,9 +1,9 @@
-/* eslint-disable @typescript-eslint/no-empty-function */
-import {store} from '@app/data';
-import {DeviceInfo} from '@app/libraries';
+import {AuthState, store} from '@app/data';
+import {DeviceInfo, CryptoJS} from '@app/libraries';
 import axios from 'axios';
 import _ from 'lodash';
 import {Platform} from 'react-native';
+import {APP_KEY} from 'react-native-dotenv';
 
 interface Payload {
   headers?: any;
@@ -25,28 +25,28 @@ export const apiInstance = axios.create({
 });
 
 class ApiRequest {
-  static get(route) {
-    return payload => this.request('GET', route, payload);
+  static get(route: string) {
+    return (payload: Payload) => this.request('GET', route, payload);
   }
 
-  static put(route) {
-    return payload => this.request('PUT', route, payload);
+  static put(route: string) {
+    return (payload: Payload) => this.request('PUT', route, payload);
   }
 
-  static post(route) {
-    return payload => this.request('POST', route, payload);
+  static post(route: string) {
+    return (payload: Payload) => this.request('POST', route, payload);
   }
 
-  static delete(route) {
-    return payload => this.request('DELETE', route, payload);
+  static delete(route: string) {
+    return (payload: Payload) => this.request('DELETE', route, payload);
   }
 
   /**
    * handle url params, input object, return string
    * @param {object} params
    */
-  static resolveParams(params) {
-    const paramsResult = [];
+  static resolveParams(params: any) {
+    const paramsResult: string[] = [];
     Object.keys(params).map(e => paramsResult.push(`${e}=${params[e]}`));
     return `?${paramsResult.join('&')}`;
   }
@@ -56,7 +56,7 @@ class ApiRequest {
    * @param {object} res
    * @param {string} url
    */
-  static async resolveResponse(res) {
+  static async resolveResponse(res: any) {
     if (res && res.code) {
     }
   }
@@ -69,12 +69,17 @@ class ApiRequest {
    * @param {string} route
    * @param {object} payload
    */
-  static async request(method, route, payload: Payload) {
+  static async request(method: string, route: string, payload: Payload) {
     // REDUX STATE
-    //const appState = store.getState(); // set store state
-    //const {auth} = appState;
-    // const accessToken = await AesDecrypt(auth.accessToken);
-    const accessToken = '';
+    const appState = store.getState(); // set store state
+    const auth: AuthState = appState.auth;
+
+    // Decrypt
+    let accessToken = '';
+    if (auth.accessToken !== '') {
+      const bytes = CryptoJS.AES.decrypt(auth, APP_KEY);
+      accessToken = bytes.toString(CryptoJS.enc.Utf8);
+    }
 
     if (payload.params) {
       const path = this.resolveParams(payload.params);
@@ -110,10 +115,9 @@ class ApiRequest {
       await this.resolveResponse(res.data);
       return Promise.resolve(res.data);
     } catch (err) {
-      const error = err.response ? err.response : err;
-      console.log(error);
-      this.resolveResponse(error.data);
-      return Promise.reject(error.data);
+      console.log(err);
+      this.resolveResponse(err);
+      return Promise.reject(err);
     }
   }
 }

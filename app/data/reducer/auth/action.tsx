@@ -1,12 +1,11 @@
-/* eslint-disable prefer-promise-reject-errors */
 import actionTypes from './constant';
 
-export const setAccessToken = value => ({
+export const setAccessToken = (value: string) => ({
   type: actionTypes.SET_ACCESS_TOKEN,
-  value
+  value,
 });
 
-export const setFcmToken = value => ({
+export const setFcmToken = (value: string) => ({
   type: actionTypes.SET_FCM_TOKEN,
-  value
+  value,
 });

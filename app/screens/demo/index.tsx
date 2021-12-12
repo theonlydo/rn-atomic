@@ -11,11 +11,12 @@
 import React from 'react';
 import {View, Text} from 'react-native';
 import styles from './styles';
+import {Config} from '@app/libraries';
 
 const DemoScreen = () => {
   return (
     <View>
-      <Text style={styles.title}>WELCOME</Text>
+      <Text style={styles.title}>Welcome {Config.TEST_CONFIG}</Text>
     </View>
   );
 };

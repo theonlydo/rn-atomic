@@ -1,5 +1,5 @@
 import {AuthState, store} from '@app/data';
-import {DeviceInfo, CryptoJS} from '@app/libraries';
+import {DeviceInfo, CryptoJS, Config} from '@app/libraries';
 import axios from 'axios';
 import _ from 'lodash';
 import {Platform} from 'react-native';
@@ -76,7 +76,7 @@ class ApiRequest {
     // Decrypt
     let accessToken = '';
     if (auth.accessToken !== '') {
-      const bytes = CryptoJS.AES.decrypt(auth, "KEY");
+      const bytes = CryptoJS.AES.decrypt(auth, Config.APP_KEY);
       accessToken = bytes.toString(CryptoJS.enc.Utf8) || '';
     }
 

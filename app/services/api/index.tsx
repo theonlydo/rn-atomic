@@ -1,5 +1,5 @@
 import ApiRequest from './config';
-//import {API_ENDPOINT, API_LOGIN} from 'react-native-dotenv';
+import {Config} from '@app/libraries';
 
 const API = {
   /**
@@ -7,7 +7,7 @@ const API = {
    * AUTH
    * ====================================================
    */
-  reqLogin: ApiRequest.post('' + ''),
+  reqLogin: ApiRequest.post(Config.API_ENDPOINT + Config.API_LOGIN),
 };
 
 export default API;

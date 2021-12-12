@@ -9,7 +9,8 @@ import {applyMiddleware, createStore, combineReducers} from 'redux';
 import {createStackNavigator, TransitionPresets} from '@react-navigation/stack';
 import {PersistGate} from 'redux-persist/integration/react';
 import DeviceInfo from 'react-native-device-info';
-import CryptoJS from 'crypto-js';
+var CryptoJS = require('crypto-js');
+import Config from 'react-native-config';
 
 export {
   AsyncStorage,
@@ -28,4 +29,5 @@ export {
   PersistGate,
   DeviceInfo,
   CryptoJS,
+  Config,
 };

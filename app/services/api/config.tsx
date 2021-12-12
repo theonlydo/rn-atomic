@@ -3,7 +3,6 @@ import {DeviceInfo, CryptoJS} from '@app/libraries';
 import axios from 'axios';
 import _ from 'lodash';
 import {Platform} from 'react-native';
-import {APP_KEY} from '@env';
 
 interface Payload {
   headers?: any;
@@ -77,7 +76,7 @@ class ApiRequest {
     // Decrypt
     let accessToken = '';
     if (auth.accessToken !== '') {
-      const bytes = CryptoJS.AES.decrypt(auth, APP_KEY);
+      const bytes = CryptoJS.AES.decrypt(auth, "KEY");
       accessToken = bytes.toString(CryptoJS.enc.Utf8) || '';
     }
 

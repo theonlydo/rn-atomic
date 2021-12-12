@@ -1,8 +1,5 @@
 module.exports = {
-  presets: [
-    'module:metro-react-native-babel-preset',
-    'module:react-native-dotenv',
-  ],
+  presets: ['module:metro-react-native-babel-preset'],
   env: {
     production: {},
   },
@@ -21,12 +18,6 @@ module.exports = {
         alias: {
           '@app': './app',
         },
-      },
-    ],
-    [
-      'module:react-native-dotenv',
-      {
-        moduleName: 'react-native-dotenv',
       },
     ],
     ['@babel/plugin-proposal-optional-catch-binding'],
